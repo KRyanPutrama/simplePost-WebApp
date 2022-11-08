@@ -200,7 +200,7 @@
                     [
                         "components",
                         "./src/components"
-                    ],
+                    ]
                 ],
                 "extensions": [
                     ".js",
