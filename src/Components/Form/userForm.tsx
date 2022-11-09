@@ -12,16 +12,25 @@ import {
   Typography,
   Divider,
 } from '@mui/material'
-import { useAppDispatch } from '../../Hooks/hooks'
-import { postNewUser } from '../../GlobalStates/users'
 
-function UserForm() {
-  const dispatch = useAppDispatch()
+type Props = {
+  formTitle: string,
+  data?: {
+    name: string,
+    email: string,
+    gender: string,
+    status: string,
+  }
+  handleSubmit: ({
+    name, email, gender, status,
+  } : { name: string, email: string, gender: string, status: string }) => void
+}
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [gender, setGender] = useState('male')
-  const [status, setStatus] = useState('')
+function UserForm({ formTitle, data, handleSubmit } : Props) {
+  const [name, setName] = useState(data?.name || '')
+  const [email, setEmail] = useState(data?.email || '')
+  const [gender, setGender] = useState(data?.gender || 'male')
+  const [status, setStatus] = useState(data?.status || '')
 
   return (
     <Box
@@ -36,7 +45,7 @@ function UserForm() {
     >
       <Box sx={{ marginBottom: '10px' }}>
         <Typography>
-          Buat Pengguna
+          {formTitle}
         </Typography>
         <Divider />
       </Box>
@@ -95,12 +104,16 @@ function UserForm() {
         </RadioGroup>
       </FormControl>
       <Button
-        // disabled={!name || !email || !status}
+        disabled={!name || !email || !status}
         variant="contained"
         onClick={() => {
-          dispatch(postNewUser({
-            name, email, gender, status,
-          }))
+          const paramData = {
+            name,
+            email,
+            gender,
+            status,
+          }
+          handleSubmit(paramData)
         }}
       >
         Submit

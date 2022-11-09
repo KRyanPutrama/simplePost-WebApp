@@ -15,6 +15,10 @@ const INITIAL_STATE : ReducerState = {
   deleteUserState: '',
   deleteUserError: null,
 
+  editUser: null,
+  editUserState: '',
+  editUserError: null,
+
   pageLimit: 0,
 }
 
@@ -23,6 +27,8 @@ export const GET_USER_DATA = 'GET_USER_DATA'
 export const POST_NEW_USER = 'POST_NEW_USER'
 
 export const DELETE_USER = 'DELETE_USER'
+
+export const PUT_USER = 'PUT_USER'
 
 export const SET_PAGINATION_LIMIT = 'SET_PAGINATION_LIMIT'
 
@@ -92,6 +98,28 @@ export const actionReducer = produce((state: ReducerState = INITIAL_STATE, actio
         deleteUser: null,
         deleteUserState: 'error',
         deleteUserError: action.payload,
+      }
+
+    case `${PUT_USER}_LOADING`:
+      return {
+        ...state,
+        editUser: null,
+        editUserState: 'loading',
+        editUserError: null,
+      }
+    case `${PUT_USER}_SUCCESS`:
+      return {
+        ...state,
+        editUser: action.payload,
+        editUserState: 'success',
+        editUserError: null,
+      }
+    case `${PUT_USER}_FAILED`:
+      return {
+        ...state,
+        editUser: null,
+        editUserState: 'error',
+        editUserError: action.payload,
       }
 
     case SET_PAGINATION_LIMIT:

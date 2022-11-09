@@ -7,21 +7,57 @@ import { useAppSelector } from '../../Hooks/hooks'
 
 function AlertSnackBar() {
   const {
-    isSuccess,
-    isError,
-  } = useAppSelector(({ users }) => ({
-    isSuccess: users?.postUserState === 'success' || users?.deleteUserState === 'success',
-    isError: users?.postUserState === 'error' || users?.deleteUserState === 'error',
+
+    postUserIsSuccess,
+    deleteUserIsSuccess,
+    submitPostIsSuccess,
+    deletePostIsSuccess,
+    editUserIsSuccess,
+
+    userPostIsError,
+    deleteUserIsError,
+    submitPostIsError,
+    deletePostIsError,
+    editUserIsError,
+  } = useAppSelector(({ users, userDetail }) => ({
+    postUserIsSuccess: users?.postUserState === 'success',
+    deleteUserIsSuccess: users?.deleteUserState === 'success',
+    submitPostIsSuccess: userDetail?.submitPostsState === 'success',
+    deletePostIsSuccess: userDetail?.deletePostState === 'success',
+    editUserIsSuccess: users?.editUserState === 'success',
+
+    userPostIsError: users?.postUserState === 'error',
+    deleteUserIsError: users?.deleteUserState === 'error',
+    submitPostIsError: userDetail?.submitPostsState === 'error',
+    deletePostIsError: userDetail?.deletePostState === 'error',
+    editUserIsError: users?.editUserState === 'error',
   }), shallowEqual)
 
   const [open, setOpen] = useState(false)
 
-  const message = useMemo(() => {
-    if (isError) {
-      return 'Error'
-    }
-    return 'Success'
-  }, [isSuccess, isError])
+  const isSuccess = useMemo(
+    () => postUserIsSuccess || deleteUserIsSuccess || submitPostIsSuccess || deletePostIsSuccess || editUserIsSuccess,
+    [
+      postUserIsSuccess,
+      deleteUserIsSuccess,
+      submitPostIsSuccess,
+      deletePostIsSuccess,
+      editUserIsSuccess,
+    ],
+  )
+
+  const isError = useMemo(
+    () => userPostIsError || deleteUserIsError || submitPostIsError || deletePostIsError || editUserIsError,
+    [
+      userPostIsError,
+      deleteUserIsError,
+      submitPostIsError,
+      deletePostIsError,
+      editUserIsError,
+    ],
+  )
+
+  const message = useMemo(() => (isError ? 'Error' : 'Success'), [isError])
 
   const handleClose = useCallback(
     () => {
@@ -34,12 +70,23 @@ function AlertSnackBar() {
     if (isSuccess || isError) {
       setOpen(true)
     }
-  }, [isSuccess, isError])
+  }, [
+    postUserIsSuccess,
+    deleteUserIsSuccess,
+    submitPostIsSuccess,
+    deletePostIsSuccess,
+    editUserIsSuccess,
+    userPostIsError,
+    deleteUserIsError,
+    submitPostIsError,
+    deletePostIsError,
+    editUserIsError,
+  ])
 
   return (
     <Snackbar
       open={open}
-      autoHideDuration={2000}
+      autoHideDuration={500}
       onClose={handleClose}
       message
     >

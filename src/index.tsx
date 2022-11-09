@@ -1,5 +1,5 @@
 import React from 'react'
-import { createBrowserRouter, RouterProvider, Router } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { store } from './GlobalStates/store'
@@ -10,7 +10,7 @@ import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
-import IndexOfHome from './Pages/Home'
+import { IndexOfHomePage, IndexOfDetailPage } from './Pages'
 
 const container = document.getElementById('root')!
 const root = createRoot(container)
@@ -22,7 +22,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <IndexOfHome />,
+        element: <IndexOfHomePage />,
+      },
+      {
+        path: 'detail/:userId',
+        element: <IndexOfDetailPage />,
       },
     ],
   },

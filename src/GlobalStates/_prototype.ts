@@ -1,4 +1,4 @@
-import { ApiResponseError } from './api/_prototype';
+import { ApiResponseError } from './api/_prototype'
 
 export interface ActionReducer<PydT = any> {
   type: string;

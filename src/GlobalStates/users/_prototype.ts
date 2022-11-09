@@ -1,21 +1,5 @@
 import { ApiResponseError } from '../api/_prototype'
 
-export interface ReducerState {
-  usersData: GetUserRes_Data[] | null
-  usersFetchState: '' | 'loading' | 'success' | 'error'
-  usersDataError: ApiResponseError | null
-
-  postUserData: PostNewUserRes | null
-  postUserState: '' | 'loading' | 'success' | 'error'
-  postUserError: ApiResponseError | null
-
-  deleteUser: DeleteUserRes | null
-  deleteUserState: '' | 'loading' | 'success' | 'error'
-  deleteUserError: ApiResponseError | null
-
-  pageLimit: number
-}
-
 export type GetUserReq = {
   page: number
 }
@@ -42,3 +26,33 @@ export type DeleteUserReq = {
 }
 
 export type DeleteUserRes = Record<string, any>
+
+export type PutUserReq = {
+  id: number
+  name: string
+  email: string
+  gender: string
+  status: string
+}
+
+export type PutUserRes = Record<string, any>
+
+export interface ReducerState {
+  usersData: GetUserRes_Data[] | null
+  usersFetchState: '' | 'loading' | 'success' | 'error'
+  usersDataError: ApiResponseError | null
+
+  postUserData: PostNewUserRes | null
+  postUserState: '' | 'loading' | 'success' | 'error'
+  postUserError: ApiResponseError | null
+
+  deleteUser: DeleteUserRes | null
+  deleteUserState: '' | 'loading' | 'success' | 'error'
+  deleteUserError: ApiResponseError | null
+
+  editUser: PutUserRes | null
+  editUserState: '' | 'loading' | 'success' | 'error'
+  editUserError: ApiResponseError | null
+
+  pageLimit: number
+}

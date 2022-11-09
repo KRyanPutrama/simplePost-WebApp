@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
 import {
-  Card, CardHeader, Avatar, IconButton, CardContent, Typography, Popover,
+  Card, CardHeader, Avatar, IconButton, CardContent, Typography, Popover, Box,
 } from '@mui/material'
 import { red } from '@mui/material/colors'
 
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import DeleteIcon from '@mui/icons-material/Delete'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import EditIcon from '@mui/icons-material/Edit'
+
+import { Link } from 'react-router-dom'
 import { deleteUser, GetUserRes_Data } from '../../GlobalStates/users'
 import { useAppDispatch } from '../../Hooks/hooks'
 
 type Props = {
   data: GetUserRes_Data
+  editAction: () => void
 }
 
-function UserCard({ data } : Props) {
+function UserCard({ data, editAction } : Props) {
   const dispatch = useAppDispatch()
 
   const [openAnchor, setOpenAnchor] = useState<HTMLButtonElement | null>(null)
@@ -54,9 +59,20 @@ function UserCard({ data } : Props) {
                 horizontal: 'left',
               }}
             >
-              <IconButton onClick={() => dispatch(deleteUser({ id: data.id }))}>
-                <DeleteIcon />
-              </IconButton>
+              <Box sx={{ display: 'flex', flexDirection: 'column ' }}>
+                <IconButton>
+                  <Link to={`detail/${data.id}`}>
+                    <VisibilityIcon />
+                  </Link>
+                </IconButton>
+                <IconButton onClick={() => dispatch(deleteUser({ id: data.id }))}>
+                  <DeleteIcon />
+                </IconButton>
+
+                <IconButton onClick={editAction}>
+                  <EditIcon />
+                </IconButton>
+              </Box>
             </Popover>
           </>
           )}

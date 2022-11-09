@@ -8,9 +8,12 @@ export * from './reducer'
 
 export const getUserData = (params?: proto.GetUserReq) => fetchApi<proto.GetUserRes_Data>({
   label: reducerLabel.GET_USER_DATA,
-  action: () => customAxios({
+  action: (auth) => customAxios({
     url: '/v2/users',
     method: 'GET',
+    headers: {
+      Authorization: `Bearer ${auth}`,
+    },
     params: {
       ...params,
     },
@@ -51,6 +54,29 @@ export const deleteUser = (data: proto.DeleteUserReq) => fetchApi<proto.DeleteUs
       Authorization: `Bearer ${auth}`,
     },
     method: 'DELETE',
+  }),
+  fulfilled(response) {
+    return response.data
+  },
+  rejected(error) {
+    return error
+  },
+})
+
+export const putUser = (data: proto.PutUserReq) => fetchApi<proto.PutUserRes>({
+  label: reducerLabel.PUT_USER,
+  action: (auth) => customAxios({
+    url: `/v2/users/${data.id}`,
+    headers: {
+      Authorization: `Bearer ${auth}`,
+    },
+    method: 'PUT',
+    data: {
+      name: data.name,
+      email: data.email,
+      gender: data.gender,
+      status: data.status,
+    },
   }),
   fulfilled(response) {
     return response.data

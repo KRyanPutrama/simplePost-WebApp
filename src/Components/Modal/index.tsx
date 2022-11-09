@@ -7,6 +7,7 @@ type Props = {
   handleClose: () => void
   visible: boolean
   children: React.ReactElement
+  IsSuccess: boolean
 }
 
 const style = {
@@ -23,18 +24,14 @@ const style = {
   pb: 3,
 }
 
-function PopupModal({ handleClose, visible, children }: Props) {
-  const {
-    isSuccess,
-  } = useAppSelector(({ users }) => ({
-    isSuccess: users?.postUserState === 'success',
-  }), shallowEqual)
-
+function PopupModal({
+  handleClose, visible, children, IsSuccess,
+}: Props) {
   useEffect(() => {
-    if (isSuccess) {
+    if (IsSuccess) {
       handleClose()
     }
-  }, [isSuccess])
+  }, [IsSuccess])
 
   return (
     <Modal
